@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEIKER GX — Studio Hub & Operational Dashboard</title>
+  <style>
+    :root {
+      --bg-darkest: #0d0e12;
+      --bg-card: #16181e;
+      --bg-card-header: #1f222a;
+      --accent-purple: #8a2be2;
+      --accent-cyan: #00f2fe;
+      --accent-green: #00e676;
+      --accent-red: #ff1744;
+      --accent-yellow: #ffd600;
+      --text: #e1e3e8;
+      --text-muted: #8b92a5;
+      --border: #262933;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-darkest); color: var(--text); min-height: 100vh; padding: 20px; }
+
+    .screen { display: none; }
+    .active { display: block; }
+
+    /* LOGIN */
+    .login-container { display: flex; justify-content: center; align-items: center; min-height: 90vh; }
+    .login-box { background: var(--bg-card); padding: 40px; border-radius: 14px; border: 1px solid var(--border); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+    .login-box h2 { font-size: 26px; color: #fff; margin-bottom: 5px; }
+    .login-box p { color: var(--text-muted); font-size: 13px; margin-bottom: 25px; }
+    .form-group { text-align: left; margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: bold; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px; background: var(--bg-darkest); border: 1px solid var(--border); border-radius: 6px; color: #fff; outline: none; }
+    .login-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #8a2be2, #00f2fe); border: none; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer; }
+
+    /* DASHBOARD TOP BAR */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+    .user-profile { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 48px; height: 48px; background: #00e676; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #000; font-weight: bold; }
+    .user-title h1 { font-size: 22px; color: #fff; font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+    .user-title .handle { background: rgba(138, 43, 226, 0.3); color: #c084fc; font-size: 12px; padding: 2px 8px; border-radius: 12px; font-weight: normal; }
+    .user-title p { color: var(--text-muted); font-size: 12px; }
+
+    /* STATS METRICS TOP */
+    .counters-bar { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+    .stat-badge { background: var(--bg-card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 10px; display: flex; align-items: center; gap: 12px; }
+    .stat-badge .title { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; }
+    .stat-badge .value { font-size: 18px; font-weight: bold; color: #fff; }
+    .badge-controls { display: flex; gap: 4px; }
+    .badge-btn { background: var(--bg-card-header); border: none; color: var(--text); width: 20px; height: 20px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+
+    /* STATUS PILLS */
+    .status-pills { display: flex; gap: 10px; }
+    .status-pill { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); color: #00e676; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+
+    /* METRICS ROW */
+    .metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; position: relative; }
+    .metric-card .header-m { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+    .metric-card .val { font-size: 24px; font-weight: bold; color: #fff; }
+    .metric-card .val span { font-size: 14px; color: var(--text-muted); font-weight: normal; }
+    .metric-card .sub { font-size: 11px; color: var(--accent-red); margin-top: 4px; }
+
+    /* CALENDAR SECTION */
+    .calendar-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .cal-title { display: flex; align-items: center; gap: 12px; }
+    .cal-title span.icon { font-size: 20px; color: #c084fc; background: rgba(138,43,226,0.2); padding: 10px; border-radius: 8px; }
+    .cal-controls { display: flex; gap: 10px; align-items: center; }
+    .cal-btn { background: var(--bg-card-header); border: 1px solid var(--border); color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+    select.cal-select { background: var(--bg-card-header); border: 1px solid var(--border); color: #fff; padding: 6px 12px; border-radius: 6px; outline: none; }
+
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
+    .day-name { font-size: 11px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; padding-bottom: 8px; }
+    .day-cell { background: var(--bg-darkest); border: 1px solid var(--border); border-radius: 8px; min-height: 80px; padding: 8px; text-align: left; font-size: 12px; position: relative; }
+    .day-num { font-weight: bold; color: var(--text); margin-bottom: 4px; }
+
+    .logout-top { background: #ff1744; border: none; color: white; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-screen" class="screen active">
+    <div class="login-container">
+      <div class="login-box">
+        <h2>LEIKER GX</h2>
+        <p>Studio Hub & Operational Dashboard</p>
+        <form id="login-form">
+          <div class="form-group">
+            <label>Usuario</label>
+            <input type="text" id="username" value="Leiker" required>
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" id="password" required>
+          </div>
+          <button type="submit" class="login-btn">Entrar al Studio</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD PRINCIPAL -->
+  <div id="dashboard-screen" class="screen">
+    
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="user-profile">
+        <div class="avatar">🐶</div>
+        <div class="user-title">
+          <h1>LEIKER GX <span class="handle">leikergx_tw</span></h1>
+          <p>Studio Hub & Operational Dashboard</p>
+        </div>
+      </div>
+
+      <!-- COUNTERS -->
+      <div class="counters-bar">
+        <div class="stat-badge">
+          <div>
+            <div class="title">Twitch Followers</div>
+            <div class="value" id="tw-fol">11</div>
+          </div>
+          <div class="badge-controls">
+            <button class="badge-btn" onclick="mod('tw-fol', 1)">+</button>
+            <button class="badge-btn" onclick="mod('tw-fol', -1)">-</button>
+          </div>
+        </div>
+
+        <div class="stat-badge">
+          <div>
+            <div class="title">Twitch Subs</div>
+            <div class="value" id="tw-subs">0</div>
+          </div>
+          <div class="badge-controls">
+            <button class="badge-btn" onclick="mod('tw-subs', 1)">+</button>
+            <button class="badge-btn" onclick="mod('tw-subs', -1)">-</button>
+          </div>
+        </div>
+
+        <div class="stat-badge">
+          <div>
+            <div class="title">YT Subscribers</div>
+            <div class="value" id="yt-subs">78</div>
+          </div>
+          <div class="badge-controls">
+            <button class="badge-btn" onclick="mod('yt-subs', 1)">+</button>
+            <button class="badge-btn" onclick="mod('yt-subs', -1)">-</button>
+          </div>
+        </div>
+
+        <!-- STATUS -->
+        <div class="status-pills">
+          <div class="status-pill">⚡ Luz: Estable</div>
+          <div class="status-pill">📶 Net: Estable</div>
+        </div>
+
+        <button class="logout-top" id="logout-btn">Salir</button>
+      </div>
+    </div>
+
+    <!-- METRICS ROW -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="header-m">Directos 📹</div>
+        <div class="val" id="val-directos">0 <span>directos</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="header-m">Horas Directo 🕒</div>
+        <div class="val" id="val-horas">0.0 <span>hrs</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="header-m">Sin Luz 🔌</div>
+        <div class="val" style="color: #ffd600;">0.0 <span>hrs</span></div>
+        <div class="sub">(0 días afect.)</div>
+      </div>
+      <div class="metric-card">
+        <div class="header-m">Sin Internet 🚫</div>
+        <div class="val" style="color: #ff1744;">0.0 <span>hrs</span></div>
+        <div class="sub">(0 días afect.)</div>
+      </div>
+      <div class="metric-card">
+        <div class="header-m">Contenido YT ▶</div>
+        <div class="val">0 <span>publicados</span></div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="calendar-card">
+      <div class="cal-header">
+        <div class="cal-title">
+          <span class="icon">📅</span>
+          <div>
+            <h2 style="font-size: 18px; color: #fff;">Calendario de Transmisiones e Incidencias</h2>
+            <p style="font-size: 12px; color: var(--text-muted);">Planifica directos, registra apagones y fallas de conexión</p>
+          </div>
+        </div>
+
+        <div class="cal-controls">
+          <button class="cal-btn" onclick="prevMonth()">◀</button>
+          <select id="month-select" class="cal-select" onchange="renderCal()"></select>
+          <select id="year-select" class="cal-select" onchange="renderCal()"></select>
+          <button class="cal-btn" onclick="nextMonth()">▶</button>
+        </div>
+      </div>
+
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+
+  </div>
+
+  <script>
+    const USER = "Leiker";
+    const PASS = "jonnahyker0923";
+
+    let curDate = new Date(2026, 8, 1);
+
+    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if(document.getElementById('username').value === USER && document.getElementById('password').value === PASS) {
+        localStorage.setItem('hub_login', 'true');
+        initHub();
+      } else {
+        alert('Contraseña o Usuario incorrecto');
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('hub_login');
+      location.reload();
+    });
+
+    if(localStorage.getItem('hub_login') === 'true') {
+      initHub();
+    }
+
+    function initHub() {
+      document.getElementById('login-screen').classList.remove('active');
+      document.getElementById('dashboard-screen').classList.add('active');
+      initCalSelects();
+      renderCal();
+      loadSavedCounters();
+    }
+
+    function mod(id, val) {
+      let el = document.getElementById(id);
+      let count = parseInt(el.innerText) + val;
+      if(count < 0) count = 0;
+      el.innerText = count;
+      localStorage.setItem(id, count);
+    }
+
+    function loadSavedCounters() {
+      ['tw-fol', 'tw-subs', 'yt-subs'].forEach(id => {
+        if(localStorage.getItem(id) !== null) {
+          document.getElementById(id).innerText = localStorage.getItem(id);
+        }
+      });
+    }
+
+    function initCalSelects() {
+      const mSel = document.getElementById('month-select');
+      const ySel = document.getElementById('year-select');
+
+      mSel.innerHTML = '';
+      months.forEach((m, idx) => {
+        mSel.innerHTML += `<option value="${idx}">${m}</option>`;
+      });
+
+      ySel.innerHTML = '';
+      for(let y = 2025; y <= 2030; y++) {
+        ySel.innerHTML += `<option value="${y}">${y}</option>`;
+      }
+    }
+
+    function renderCal() {
+      const mSel = document.getElementById('month-select');
+      const ySel = document.getElementById('year-select');
+
+      if(mSel.value !== '') {
+        curDate.setMonth(parseInt(mSel.value));
+        curDate.setFullYear(parseInt(ySel.value));
+      } else {
+        mSel.value = curDate.getMonth();
+        ySel.value = curDate.getFullYear();
+      }
+
+      const grid = document.getElementById('cal-grid');
+      grid.innerHTML = '';
+
+      const dayNames = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
+      dayNames.forEach(d => {
+        grid.innerHTML += `<div class="day-name">${d}</div>`;
+      });
+
+      let year = curDate.getFullYear();
+      let month = curDate.getMonth();
+
+      let firstDay = new Date(year, month, 1).getDay();
+      let daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      let offset = firstDay === 0 ? 6 : firstDay - 1;
+
+      for(let i = 0; i < offset; i++) {
+        grid.innerHTML += `<div class="day-cell" style="opacity: 0.2;"></div>`;
+      }
+
+      for(let day = 1; day <= daysInMonth; day++) {
+        grid.innerHTML += `
+          <div class="day-cell">
+            <div class="day-num">${day}</div>
+          </div>
+        `;
+      }
+    }
+
+    function prevMonth() {
+      curDate.setMonth(curDate.getMonth() - 1);
+      document.getElementById('month-select').value = curDate.getMonth();
+      document.getElementById('year-select').value = curDate.getFullYear();
+      renderCal();
+    }
+
+    function nextMonth() {
+      curDate.setMonth(curDate.getMonth() + 1);
+      document.getElementById('month-select').value = curDate.getMonth();
+      document.getElementById('year-select').value = curDate.getFullYear();
+      renderCal();
+    }
+  </script>
+</body>
+</html>
