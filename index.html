@@ -19,8 +19,17 @@
       --border: #262933;
     }
 
+    body.light-mode {
+      --bg-darkest: #f0f2f5;
+      --bg-card: #ffffff;
+      --bg-card-header: #e4e6eb;
+      --text: #1c1e21;
+      --text-muted: #606770;
+      --border: #ccd0d5;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    body { background-color: var(--bg-darkest); color: var(--text); min-height: 100vh; padding: 20px; }
+    body { background-color: var(--bg-darkest); color: var(--text); min-height: 100vh; padding: 20px; transition: all 0.3s ease; }
 
     .screen { display: none; }
     .active { display: block; }
@@ -28,55 +37,70 @@
     /* LOGIN */
     .login-container { display: flex; justify-content: center; align-items: center; min-height: 90vh; }
     .login-box { background: var(--bg-card); padding: 40px; border-radius: 14px; border: 1px solid var(--border); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-    .login-box h2 { font-size: 26px; color: #fff; margin-bottom: 5px; }
+    .login-box h2 { font-size: 26px; color: var(--text); margin-bottom: 5px; }
     .login-box p { color: var(--text-muted); font-size: 13px; margin-bottom: 25px; }
     .form-group { text-align: left; margin-bottom: 18px; }
     .form-group label { display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: bold; margin-bottom: 6px; }
-    .form-group input { width: 100%; padding: 12px; background: var(--bg-darkest); border: 1px solid var(--border); border-radius: 6px; color: #fff; outline: none; }
+    .form-group input { width: 100%; padding: 12px; background: var(--bg-darkest); border: 1px solid var(--border); border-radius: 6px; color: var(--text); outline: none; }
     .login-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #8a2be2, #00f2fe); border: none; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer; }
 
-    /* DASHBOARD TOP BAR */
+    /* TOP BAR */
     .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
     .user-profile { display: flex; align-items: center; gap: 12px; }
     .avatar { width: 48px; height: 48px; background: #00e676; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #000; font-weight: bold; }
-    .user-title h1 { font-size: 22px; color: #fff; font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+    .user-title h1 { font-size: 22px; color: var(--text); font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
     .user-title .handle { background: rgba(138, 43, 226, 0.3); color: #c084fc; font-size: 12px; padding: 2px 8px; border-radius: 12px; font-weight: normal; }
     .user-title p { color: var(--text-muted); font-size: 12px; }
 
-    /* STATS METRICS TOP */
+    /* COUNTERS & CONTROLS */
     .counters-bar { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
     .stat-badge { background: var(--bg-card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 10px; display: flex; align-items: center; gap: 12px; }
     .stat-badge .title { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; }
-    .stat-badge .value { font-size: 18px; font-weight: bold; color: #fff; }
+    .stat-badge .value { font-size: 18px; font-weight: bold; color: var(--text); }
     .badge-controls { display: flex; gap: 4px; }
-    .badge-btn { background: var(--bg-card-header); border: none; color: var(--text); width: 20px; height: 20px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .badge-btn { background: var(--bg-card-header); border: none; color: var(--text); width: 22px; height: 22px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
 
-    /* STATUS PILLS */
     .status-pills { display: flex; gap: 10px; }
-    .status-pill { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); color: #00e676; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+    .status-pill { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); color: #00e676; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
     /* METRICS ROW */
     .metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
     .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; position: relative; }
     .metric-card .header-m { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
-    .metric-card .val { font-size: 24px; font-weight: bold; color: #fff; }
+    .metric-card .val { font-size: 24px; font-weight: bold; color: var(--text); display: flex; align-items: center; justify-content: space-between; }
     .metric-card .val span { font-size: 14px; color: var(--text-muted); font-weight: normal; }
     .metric-card .sub { font-size: 11px; color: var(--accent-red); margin-top: 4px; }
 
-    /* CALENDAR SECTION */
+    /* CALENDAR */
     .calendar-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
     .cal-title { display: flex; align-items: center; gap: 12px; }
     .cal-title span.icon { font-size: 20px; color: #c084fc; background: rgba(138,43,226,0.2); padding: 10px; border-radius: 8px; }
     .cal-controls { display: flex; gap: 10px; align-items: center; }
-    .cal-btn { background: var(--bg-card-header); border: 1px solid var(--border); color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-    select.cal-select { background: var(--bg-card-header); border: 1px solid var(--border); color: #fff; padding: 6px 12px; border-radius: 6px; outline: none; }
+    .cal-btn { background: var(--bg-card-header); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    select.cal-select { background: var(--bg-card-header); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 6px; outline: none; }
 
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
     .day-name { font-size: 11px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; padding-bottom: 8px; }
-    .day-cell { background: var(--bg-darkest); border: 1px solid var(--border); border-radius: 8px; min-height: 80px; padding: 8px; text-align: left; font-size: 12px; position: relative; }
+    .day-cell { background: var(--bg-darkest); border: 1px solid var(--border); border-radius: 8px; min-height: 85px; padding: 8px; text-align: left; font-size: 12px; position: relative; cursor: pointer; transition: transform 0.1s ease; }
+    .day-cell:hover { transform: scale(1.02); border-color: var(--accent-purple); }
     .day-num { font-weight: bold; color: var(--text); margin-bottom: 4px; }
+    .day-tags { display: flex; flex-direction: column; gap: 2px; }
+    .tag { font-size: 10px; padding: 2px 4px; border-radius: 4px; color: #fff; font-weight: bold; }
+    .tag-stream { background: #8a2be2; }
+    .tag-nolight { background: #ffd600; color: #000; }
+    .tag-nonet { background: #ff1744; }
 
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 25px; width: 90%; max-width: 400px; }
+    .modal-box h3 { margin-bottom: 15px; color: var(--text); }
+    .modal-option { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: var(--text); font-size: 14px; }
+    .modal-option input[type="number"] { width: 60px; padding: 4px; background: var(--bg-darkest); border: 1px solid var(--border); color: var(--text); border-radius: 4px; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+    .theme-btn { background: var(--accent-purple); border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
     .logout-top { background: #ff1744; border: none; color: white; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
   </style>
 </head>
@@ -116,7 +140,6 @@
         </div>
       </div>
 
-      <!-- COUNTERS -->
       <div class="counters-bar">
         <div class="stat-badge">
           <div>
@@ -151,12 +174,7 @@
           </div>
         </div>
 
-        <!-- STATUS -->
-        <div class="status-pills">
-          <div class="status-pill">⚡ Luz: Estable</div>
-          <div class="status-pill">📶 Net: Estable</div>
-        </div>
-
+        <button class="theme-btn" onclick="toggleTheme()">🎨 Modo Claro/Oscuro</button>
         <button class="logout-top" id="logout-btn">Salir</button>
       </div>
     </div>
@@ -165,25 +183,47 @@
     <div class="metrics-row">
       <div class="metric-card">
         <div class="header-m">Directos 📹</div>
-        <div class="val" id="val-directos">0 <span>directos</span></div>
+        <div class="val"><span id="val-directos">0</span> <span>directos</span></div>
+        <div class="badge-controls" style="margin-top:8px;">
+          <button class="badge-btn" onclick="modMetric('val-directos', 1)">+</button>
+          <button class="badge-btn" onclick="modMetric('val-directos', -1)">-</button>
+        </div>
       </div>
+
       <div class="metric-card">
         <div class="header-m">Horas Directo 🕒</div>
-        <div class="val" id="val-horas">0.0 <span>hrs</span></div>
+        <div class="val"><span id="val-horas">0.0</span> <span>hrs</span></div>
+        <div class="badge-controls" style="margin-top:8px;">
+          <button class="badge-btn" onclick="modMetricFloat('val-horas', 1.0)">+</button>
+          <button class="badge-btn" onclick="modMetricFloat('val-horas', -1.0)">-</button>
+        </div>
       </div>
+
       <div class="metric-card">
         <div class="header-m">Sin Luz 🔌</div>
-        <div class="val" style="color: #ffd600;">0.0 <span>hrs</span></div>
-        <div class="sub">(0 días afect.)</div>
+        <div class="val" style="color: #ffd600;"><span id="val-sinluz">0.0</span> <span>hrs</span></div>
+        <div class="badge-controls" style="margin-top:8px;">
+          <button class="badge-btn" onclick="modMetricFloat('val-sinluz', 0.5)">+</button>
+          <button class="badge-btn" onclick="modMetricFloat('val-sinluz', -0.5)">-</button>
+        </div>
       </div>
+
       <div class="metric-card">
         <div class="header-m">Sin Internet 🚫</div>
-        <div class="val" style="color: #ff1744;">0.0 <span>hrs</span></div>
-        <div class="sub">(0 días afect.)</div>
+        <div class="val" style="color: #ff1744;"><span id="val-sinnet">0.0</span> <span>hrs</span></div>
+        <div class="badge-controls" style="margin-top:8px;">
+          <button class="badge-btn" onclick="modMetricFloat('val-sinnet', 0.5)">+</button>
+          <button class="badge-btn" onclick="modMetricFloat('val-sinnet', -0.5)">-</button>
+        </div>
       </div>
+
       <div class="metric-card">
         <div class="header-m">Contenido YT ▶</div>
-        <div class="val">0 <span>publicados</span></div>
+        <div class="val"><span id="val-yt">0</span> <span>publicados</span></div>
+        <div class="badge-controls" style="margin-top:8px;">
+          <button class="badge-btn" onclick="modMetric('val-yt', 1)">+</button>
+          <button class="badge-btn" onclick="modMetric('val-yt', -1)">-</button>
+        </div>
       </div>
     </div>
 
@@ -193,8 +233,8 @@
         <div class="cal-title">
           <span class="icon">📅</span>
           <div>
-            <h2 style="font-size: 18px; color: #fff;">Calendario de Transmisiones e Incidencias</h2>
-            <p style="font-size: 12px; color: var(--text-muted);">Planifica directos, registra apagones y fallas de conexión</p>
+            <h2 style="font-size: 18px; color: var(--text);">Calendario de Transmisiones e Incidencias</h2>
+            <p style="font-size: 12px; color: var(--text-muted);">Haz clic en un día para registrar directos o fallas de luz/internet</p>
           </div>
         </div>
 
@@ -211,11 +251,43 @@
 
   </div>
 
+  <!-- MODAL DÍA -->
+  <div class="modal-overlay" id="day-modal">
+    <div class="modal-box">
+      <h3 id="modal-date-title">Editar Día</h3>
+      
+      <div class="modal-option">
+        <input type="checkbox" id="m-stream">
+        <label for="m-stream">Hubo Directo (Horas: </label>
+        <input type="number" id="m-stream-hrs" value="3.0" step="0.5"> hrs)
+      </div>
+
+      <div class="modal-option">
+        <input type="checkbox" id="m-nolight">
+        <label for="m-nolight">Sin Luz (Horas: </label>
+        <input type="number" id="m-nolight-hrs" value="2.0" step="0.5"> hrs)
+      </div>
+
+      <div class="modal-option">
+        <input type="checkbox" id="m-nonet">
+        <label for="m-nonet">Sin Internet (Horas: </label>
+        <input type="number" id="m-nonet-hrs" value="1.0" step="0.5"> hrs)
+      </div>
+
+      <div class="modal-actions">
+        <button class="cal-btn" onclick="closeModal()">Cancelar</button>
+        <button class="login-btn" style="width:auto; padding: 6px 16px;" onclick="saveDayData()">Guardar Día</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const USER = "Leiker";
     const PASS = "jonnahyker0923";
 
-    let curDate = new Date(2026, 8, 1);
+    let curDate = new Date(2026, 9, 1);
+    let selectedDayKey = null;
+    let calendarData = JSON.parse(localStorage.getItem('cal_data') || '{}');
 
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
@@ -246,6 +318,10 @@
       loadSavedCounters();
     }
 
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+    }
+
     function mod(id, val) {
       let el = document.getElementById(id);
       let count = parseInt(el.innerText) + val;
@@ -254,8 +330,24 @@
       localStorage.setItem(id, count);
     }
 
+    function modMetric(id, val) {
+      let el = document.getElementById(id);
+      let count = parseInt(el.innerText) + val;
+      if(count < 0) count = 0;
+      el.innerText = count;
+      localStorage.setItem(id, count);
+    }
+
+    function modMetricFloat(id, val) {
+      let el = document.getElementById(id);
+      let count = (parseFloat(el.innerText) + val).toFixed(1);
+      if(count < 0) count = "0.0";
+      el.innerText = count;
+      localStorage.setItem(id, count);
+    }
+
     function loadSavedCounters() {
-      ['tw-fol', 'tw-subs', 'yt-subs'].forEach(id => {
+      ['tw-fol', 'tw-subs', 'yt-subs', 'val-directos', 'val-horas', 'val-sinluz', 'val-sinnet', 'val-yt'].forEach(id => {
         if(localStorage.getItem(id) !== null) {
           document.getElementById(id).innerText = localStorage.getItem(id);
         }
@@ -306,16 +398,63 @@
       let offset = firstDay === 0 ? 6 : firstDay - 1;
 
       for(let i = 0; i < offset; i++) {
-        grid.innerHTML += `<div class="day-cell" style="opacity: 0.2;"></div>`;
+        grid.innerHTML += `<div class="day-cell" style="opacity: 0.2; cursor:default;"></div>`;
       }
 
       for(let day = 1; day <= daysInMonth; day++) {
+        let dayKey = `${year}-${month+1}-${day}`;
+        let data = calendarData[dayKey] || {};
+
+        let tagsHtml = '';
+        if(data.stream) tagsHtml += `<span class="tag tag-stream">🎥 Directo (${data.streamHrs}h)</span>`;
+        if(data.nolight) tagsHtml += `<span class="tag tag-nolight">⚡ Sin Luz (${data.nolightHrs}h)</span>`;
+        if(data.nonet) tagsHtml += `<span class="tag tag-nonet">📶 Sin Net (${data.nonetHrs}h)</span>`;
+
         grid.innerHTML += `
-          <div class="day-cell">
+          <div class="day-cell" onclick="openDayModal('${dayKey}', ${day})">
             <div class="day-num">${day}</div>
+            <div class="day-tags">${tagsHtml}</div>
           </div>
         `;
       }
+    }
+
+    function openDayModal(key, day) {
+      selectedDayKey = key;
+      document.getElementById('modal-date-title').innerText = `Editar Día ${day} de ${months[curDate.getMonth()]}`;
+      
+      let data = calendarData[key] || {};
+      document.getElementById('m-stream').checked = !!data.stream;
+      document.getElementById('m-stream-hrs').value = data.streamHrs || 3.0;
+
+      document.getElementById('m-nolight').checked = !!data.nolight;
+      document.getElementById('m-nolight-hrs').value = data.nolightHrs || 2.0;
+
+      document.getElementById('m-nonet').checked = !!data.nonet;
+      document.getElementById('m-nonet-hrs').value = data.nonetHrs || 1.0;
+
+      document.getElementById('day-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('day-modal').classList.remove('active');
+    }
+
+    function saveDayData() {
+      if(!selectedDayKey) return;
+
+      calendarData[selectedDayKey] = {
+        stream: document.getElementById('m-stream').checked,
+        streamHrs: parseFloat(document.getElementById('m-stream-hrs').value),
+        nolight: document.getElementById('m-nolight').checked,
+        nolightHrs: parseFloat(document.getElementById('m-nolight-hrs').value),
+        nonet: document.getElementById('m-nonet').checked,
+        nonetHrs: parseFloat(document.getElementById('m-nonet-hrs').value)
+      };
+
+      localStorage.setItem('cal_data', JSON.stringify(calendarData));
+      closeModal();
+      renderCal();
     }
 
     function prevMonth() {
